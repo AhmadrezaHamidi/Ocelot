@@ -1,0 +1,98 @@
+﻿{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/CategoriContoller",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7134
+        }
+      ],
+      "UpstreamPathTemplate": "/Cat",
+      "UpstreamHttpMethod": [ "Get" ],
+      "FileCacheOptions": {
+        "TtlSeconds": 15,
+        "Region": "product-get-all-caching"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Product/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7297
+        },
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "LoadBalancer": "RoundRobin",
+      //"LoadBalancer": "LeastConnection",
+      "UpstreamPathTemplate": "/products/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "15s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Order",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      //"FileCacheOptions": {
+      //  "TtlSeconds": 30,
+      //  "Region": "productcaching"
+      //},
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "IdentityApiKey",
+      //  "AllowedScopes": []
+      //},
+      "UpstreamPathTemplate": "/orders",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Order/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7001"
+        }
+        //{
+        //  "Host": "localhost",
+        //  "Port": 5001
+        //}
+      ],
+      //"FileCacheOptions": {
+      //  "TtlSeconds": 30,
+      //  "Region": "productscaching"
+      //},
+      //"RateLimitOptions": {
+      //  "ClientWhitelist": [],
+      //  "EnableRateLimiting": true,
+      //  "Period": "5s",
+      //  "PeriodTimespan": 1,
+      //  "Limit": 1
+      //},
+      "LoadBalancer": "RoundRobin",
+      //"LoadBalancer": "LeastConnection",
+      "UpstreamPathTemplate": "/GetCategoriesBYId/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5103"
+  }
+}
+
